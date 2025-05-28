@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { connectToDatabase } from '@/lib/mongodb'
 import { User } from '@/models/User'
+import bcrypt from 'bcryptjs'
 
 export async function POST(req: Request) {
   await connectToDatabase()
@@ -12,7 +13,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Email já registrado' }, { status: 400 })
   }
 
-  const senhaHash = senha // ← vamos criptografar isso depois com bcrypt
+  const senhaHash = await bcrypt.hash(senha, 10)
 
   const novoUsuario = new User({ nome, email, senhaHash })
   await novoUsuario.save()

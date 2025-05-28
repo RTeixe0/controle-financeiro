@@ -3,12 +3,12 @@ import { DebtPayment } from '@/models/DebtPayment'
 import { NextResponse } from 'next/server'
 
 interface Params {
-  params: { debtId: string }
+  params: { id: string }
 }
 
 export async function GET(_: Request, { params }: Params) {
   await connectToDatabase()
-  const pagamentos = await DebtPayment.find({ debtId: params.debtId }).sort({ data: -1 })
+  const pagamentos = await DebtPayment.find({ debtId: params.id }).sort({ data: -1 })
   return NextResponse.json(pagamentos)
 }
 
@@ -18,7 +18,7 @@ export async function POST(req: Request, { params }: Params) {
 
   const pagamento = await DebtPayment.create({
     ...data,
-    debtId: params.debtId
+    debtId: params.id
   })
 
   return NextResponse.json(pagamento, { status: 201 })
