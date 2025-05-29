@@ -10,15 +10,19 @@ export async function POST(req: Request) {
   await connectToDatabase()
 
   const { email, senha } = await req.json()
-  const user = await User.findOne({ email })
 
+  if (!email || !senha) {
+    return NextResponse.json({ error: 'Email e senha são obrigatórios' }, { status: 400 })
+  }
+
+  const user = await User.findOne({ email })
   if (!user || !(await bcrypt.compare(senha, user.senhaHash))) {
     return NextResponse.json({ error: 'Credenciais inválidas' }, { status: 401 })
   }
 
   const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '7d' })
 
-  const res = NextResponse.json({ message: 'Login realizado com sucesso' })
+  const res = NextResponse.json({ message: 'Login realizado com sucesso', userId: user._id })
 
   res.cookies.set('token', token, {
     httpOnly: true,
