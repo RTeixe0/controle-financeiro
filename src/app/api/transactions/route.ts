@@ -1,17 +1,61 @@
 import { connectToDatabase } from '@/lib/mongodb'
 import { Transaction } from '@/models/Transaction'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
+import jwt from 'jsonwebtoken'
+import mongoose from 'mongoose'
 
-export async function GET() {
-  await connectToDatabase()
-  const transacoes = await Transaction.find().sort({ data: -1 })
-  return NextResponse.json(transacoes)
+interface JWTPayload {
+  userId: string
+  email: string
+  iat: number
+  exp: number
 }
 
-export async function POST(req: Request) {
+export async function GET(req: NextRequest) {
   await connectToDatabase()
-  const body = await req.json()
 
-  const nova = await Transaction.create(body)
-  return NextResponse.json(nova, { status: 201 })
+  try {
+    const token = req.cookies.get('token')?.value
+    if (!token) {
+      return NextResponse.json({ error: 'Token ausente' }, { status: 401 })
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JWTPayload
+    const userId = new mongoose.Types.ObjectId(decoded.userId)
+
+    const transacoes = await Transaction.find({ userId }).sort({ data: -1 })
+
+    return NextResponse.json(transacoes)
+  } catch (error) {
+    console.error(error)
+    return NextResponse.json({ error: 'Erro ao buscar transações' }, { status: 500 })
+  }
+}
+
+export async function POST(req: NextRequest) {
+  await connectToDatabase()
+
+  try {
+    const token = req.cookies.get('token')?.value
+    if (!token) {
+      return NextResponse.json({ error: 'Token ausente' }, { status: 401 })
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JWTPayload
+    const userId = new mongoose.Types.ObjectId(decoded.userId)
+
+    const body = await req.json()
+    const categoriaId = new mongoose.Types.ObjectId(body.categoriaId)
+
+    const nova = await Transaction.create({
+      ...body,
+      userId,
+      categoriaId
+    })
+
+    return NextResponse.json(nova, { status: 201 })
+  } catch (error) {
+    console.error(error)
+    return NextResponse.json({ error: 'Erro ao criar transação' }, { status: 500 })
+  }
 }
