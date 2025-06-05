@@ -1,5 +1,7 @@
 import { connectToDatabase } from '@/lib/mongodb'
-import { Transaction } from '@/models/Transaction'
+// import { Transaction } from '@/models/Transaction' // Substituído pelo repositório
+import { TransactionRepository } from '@/infra/mongoose/repositories/TransactionRepository'
+import { CreateTransaction } from '@/core/transactions/use-cases/CreateTransaction'
 import { NextRequest, NextResponse } from 'next/server'
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
@@ -23,7 +25,10 @@ export async function GET(req: NextRequest) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JWTPayload
     const userId = new mongoose.Types.ObjectId(decoded.userId)
 
-    const transacoes = await Transaction.find({ userId }).sort({ data: -1 })
+    // const transacoes = await Transaction.find({ userId }).sort({ data: -1 })
+    // ^ Lógica substituída pelo repositório e use-case
+    const repo = new TransactionRepository()
+    const transacoes = await repo.findByUser(userId)
 
     return NextResponse.json(transacoes)
   } catch (error) {
@@ -42,15 +47,22 @@ export async function POST(req: NextRequest) {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JWTPayload
-    const userId = new mongoose.Types.ObjectId(decoded.userId)
+    const userId = decoded.userId
 
     const body = await req.json()
-    const categoriaId = new mongoose.Types.ObjectId(body.categoriaId)
 
-    const nova = await Transaction.create({
+    // const categoriaId = new mongoose.Types.ObjectId(body.categoriaId)
+    // const nova = await Transaction.create({
+    //   ...body,
+    //   userId,
+    //   categoriaId
+    // })
+    // ^ Lógica substituída pelo use-case CreateTransaction
+    const repo = new TransactionRepository()
+    const useCase = new CreateTransaction(repo)
+    const nova = await useCase.execute({
       ...body,
-      userId,
-      categoriaId
+      userId
     })
 
     return NextResponse.json(nova, { status: 201 })

@@ -1,5 +1,7 @@
 import { connectToDatabase } from '@/lib/mongodb'
-import { Earning } from '@/models/Earning'
+// import { Earning } from '@/models/Earning' // Substituído pelo repositório
+import { EarningRepository } from '@/infra/mongoose/repositories/EarningRepository'
+import { CreateEarning } from '@/core/earnings/use-cases/CreateEarning'
 import { NextRequest, NextResponse } from 'next/server'
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
@@ -21,9 +23,12 @@ export async function GET(req: NextRequest) {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JWTPayload
-    const userId = new mongoose.Types.ObjectId(decoded.userId)
+    const userId = decoded.userId
 
-    const rendimentos = await Earning.find({ userId }).sort({ dataRecebimento: -1 })
+    // const rendimentos = await Earning.find({ userId }).sort({ dataRecebimento: -1 })
+    // ^ Lógica substituída pelo EarningRepository
+    const repo = new EarningRepository()
+    const rendimentos = await repo.findByUser(userId)
 
     return NextResponse.json(rendimentos)
   } catch (error) {
@@ -46,7 +51,14 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json()
 
-    const novo = await Earning.create({
+    // const novo = await Earning.create({
+    //   ...body,
+    //   userId
+    // })
+    // ^ Lógica substituída pelo use-case CreateEarning
+    const repo = new EarningRepository()
+    const useCase = new CreateEarning(repo)
+    const novo = await useCase.execute({
       ...body,
       userId
     })

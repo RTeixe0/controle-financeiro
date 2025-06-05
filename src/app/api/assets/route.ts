@@ -1,5 +1,7 @@
 import { connectToDatabase } from '@/lib/mongodb'
-import { Asset } from '@/models/Asset'
+// import { Asset } from '@/models/Asset' // Substituído pelo repositório
+import { AssetRepository } from '@/infra/mongoose/repositories/AssetRepository'
+import { CreateAsset } from '@/core/assets/use-cases/CreateAsset'
 import { NextRequest, NextResponse } from 'next/server'
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
@@ -21,9 +23,12 @@ export async function GET(req: NextRequest) {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JWTPayload
-    const userId = new mongoose.Types.ObjectId(decoded.userId)
+    const userId = decoded.userId
 
-    const ativos = await Asset.find({ userId }).sort({ dataAquisicao: -1 })
+    // const ativos = await Asset.find({ userId }).sort({ dataAquisicao: -1 })
+    // ^ Lógica substituída pelo AssetRepository
+    const repo = new AssetRepository()
+    const ativos = await repo.findByUser(userId)
 
     return NextResponse.json(ativos)
   } catch (error) {
@@ -46,7 +51,14 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json()
 
-    const novo = await Asset.create({
+    // const novo = await Asset.create({
+    //   ...body,
+    //   userId
+    // })
+    // ^ Lógica substituída pelo use-case CreateAsset
+    const repo = new AssetRepository()
+    const useCase = new CreateAsset(repo)
+    const novo = await useCase.execute({
       ...body,
       userId
     })
