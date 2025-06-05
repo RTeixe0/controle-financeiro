@@ -1,5 +1,6 @@
 import { connectToDatabase } from '@/lib/mongodb'
-import { Gamification } from '@/models/Gamification'
+// import { Gamification } from '@/models/Gamification' // Substituído pelo repositório
+import { GamificationRepository } from '@/infra/mongoose/repositories/GamificationRepository'
 import { NextRequest, NextResponse } from 'next/server'
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
@@ -23,13 +24,11 @@ export async function GET(req: NextRequest) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JWTPayload
     const userId = new mongoose.Types.ObjectId(decoded.userId)
 
-    const gamificacao = await Gamification.findOne({ userId })
-
-    if (!gamificacao) {
-      return NextResponse.json([], { status: 200 })
-    }
-
-    return NextResponse.json(gamificacao.conquistas)
+    // const gamificacao = await Gamification.findOne({ userId })
+    // ^ Lógica substituída pelo GamificationRepository
+    const repo = new GamificationRepository()
+    const conquistas = await repo.getArchievements(userId)
+    return NextResponse.json(conquistas)
   } catch (error) {
     console.error(error)
     return NextResponse.json({ error: 'Erro ao buscar conquistas' }, { status: 500 })

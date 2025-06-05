@@ -1,5 +1,7 @@
 import { connectToDatabase } from '@/lib/mongodb'
-import { Debt } from '@/models/Debt'
+// import { Debt } from '@/models/Debt' // Substituído pelo repositório
+import { DebtRepository } from '@/infra/mongoose/repositories/DebtRepository'
+import { CreateDebt } from '@/core/debts/use-cases/CreateDebt'
 import { NextRequest, NextResponse } from 'next/server'
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
@@ -23,7 +25,10 @@ export async function GET(req: NextRequest) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JWTPayload
     const userId = new mongoose.Types.ObjectId(decoded.userId)
 
-    const dividas = await Debt.find({ userId }).sort({ dataVencimentoProxima: 1 })
+    // const dividas = await Debt.find({ userId }).sort({ dataVencimentoProxima: 1 })
+    // ^ Lógica substituída pelo TransactionRepository
+    const repo = new DebtRepository()
+    const dividas = await repo.findByUser(userId)
 
     return NextResponse.json(dividas)
   } catch (error) {
@@ -42,11 +47,18 @@ export async function POST(req: NextRequest) {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JWTPayload
-    const userId = new mongoose.Types.ObjectId(decoded.userId)
+    const userId = decoded.userId
 
     const body = await req.json()
 
-    const nova = await Debt.create({
+    // const nova = await Debt.create({
+    //   ...body,
+    //   userId
+    // })
+    // ^ Lógica substituída pelo use-case CreateDebt
+    const repo = new DebtRepository()
+    const useCase = new CreateDebt(repo)
+    const nova = await useCase.execute({
       ...body,
       userId
     })
