@@ -1,8 +1,7 @@
-import type { NextConfig } from "next";
-import withPWA from "next-pwa";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-};
+}
 
-export default withPWA({ dest: "public" })(nextConfig);
+export default nextConfig
