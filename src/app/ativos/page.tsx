@@ -78,10 +78,12 @@ export default function Page() {
             <div>
               <Label>Tipo</Label>
               <select
-                className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
+                className="mt-1 w-full rounded-md border bg-background px-3 py-2 text-sm dark:bg-background dark:text-foreground"
                 value={tipo}
                 onChange={(e) =>
-                  setTipo(e.target.value as "imóvel" | "veículo" | "investimento" | "outro")
+                  setTipo(
+                    e.target.value as 'imóvel' | 'veículo' | 'investimento' | 'outro'
+                  )
                 }
               >
                 <option value="imóvel">Imóvel</option>

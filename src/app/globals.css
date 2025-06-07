@@ -12,7 +12,7 @@
     --foreground: #ededed;
   }
   body {
-    @apply bg-[color:var(--background)] text-[color:var(--foreground)];
+    @apply bg-[color:var(--background)] text-[color:var(--foreground)] transition-colors;
     font-family: var(--font-inter), sans-serif;
   }
 }

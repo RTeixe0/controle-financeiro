@@ -181,7 +181,7 @@ export default function Page() {
                       </TableCell>
                       <TableCell>
                         <select
-                          className="h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm"
+                          className="h-9 w-full rounded-md border bg-background px-3 py-1 text-sm dark:bg-background dark:text-foreground"
                           value={row.tipo}
                           onChange={(e) => handleRowChange(i, 'tipo', e.target.value)}
                         >
