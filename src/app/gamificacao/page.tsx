@@ -27,6 +27,7 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from '@/components/ui/tooltip'
+import { Button } from '@/components/ui/button'
 import { CheckCircle2, Info } from 'lucide-react'
 
 interface Mission {
@@ -149,10 +150,14 @@ export default function GamificacaoPage() {
 
       <Dialog>
         <DialogTrigger asChild>
-          <button className="fixed bottom-4 right-4 flex items-center gap-2 rounded-full bg-primary p-3 text-primary-foreground shadow-lg">
+          <Button
+            className="fixed bottom-4 right-4 gap-2 rounded-full p-3 shadow-lg"
+            size="icon"
+            aria-label="Ajuda"
+          >
             <CheckCircle2 className="size-5" />
             Ajuda
-          </button>
+          </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>

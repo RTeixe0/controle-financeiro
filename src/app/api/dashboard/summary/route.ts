@@ -20,15 +20,19 @@ function getToken(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  await connectToDatabase()
+  const token = getToken(req)
+  if (!token) {
+    return NextResponse.json({ error: 'Token ausente' }, { status: 401 })
+  }
 
   try {
-    const token = getToken(req)
-    if (!token) {
-      return NextResponse.json({ error: 'Token ausente' }, { status: 401 })
-    }
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET as string
+    ) as JWTPayload
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JWTPayload
+    await connectToDatabase()
+
     const userId = new mongoose.Types.ObjectId(decoded.userId)
 
     const transAgg = await Transaction.aggregate([
@@ -65,8 +69,11 @@ export async function GET(req: NextRequest) {
       totalDividas,
       patrimonioLiquido
     })
-  } catch (error) {
+  } catch (error: any) {
     console.error(error)
+    if (error.name === 'JsonWebTokenError') {
+      return NextResponse.json({ error: 'Token inválido' }, { status: 401 })
+    }
     return NextResponse.json({ error: 'Erro ao gerar resumo' }, { status: 500 })
   }
 }

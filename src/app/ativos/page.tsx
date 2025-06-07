@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Select } from "@/components/ui/select"
 
 export default function Page() {
   const [nome, setNome] = useState("")
@@ -77,20 +78,20 @@ export default function Page() {
             />
             <div>
               <Label>Tipo</Label>
-              <select
-                className="mt-1 w-full rounded-md border bg-background px-3 py-2 text-sm dark:bg-background dark:text-foreground"
+              <Select
                 value={tipo}
                 onChange={(e) =>
                   setTipo(
                     e.target.value as 'imóvel' | 'veículo' | 'investimento' | 'outro'
                   )
                 }
+                className="mt-1"
               >
                 <option value="imóvel">Imóvel</option>
                 <option value="veículo">Veículo</option>
                 <option value="investimento">Investimento</option>
                 <option value="outro">Outro</option>
-              </select>
+              </Select>
             </div>
             <div>
               <Label>Valor Atual</Label>

@@ -8,6 +8,7 @@ import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
+import { Select } from '@/components/ui/select'
 import {
   Table,
   TableHeader,
@@ -196,14 +197,14 @@ export default function Page() {
                         />
                       </TableCell>
                       <TableCell>
-                        <select
-                          className="h-9 w-full rounded-md border bg-background px-3 py-1 text-sm dark:bg-background dark:text-foreground"
-                          value={row.tipo}
-                          onChange={e => handleRowChange(i, 'tipo', e.target.value)}
-                        >
-                          <option value="despesa">Despesa</option>
-                          <option value="receita">Receita</option>
-                        </select>
+                      <Select
+                        value={row.tipo}
+                        onChange={e => handleRowChange(i, 'tipo', e.target.value)}
+                        className="h-9"
+                      >
+                        <option value="despesa">Despesa</option>
+                        <option value="receita">Receita</option>
+                      </Select>
                       </TableCell>
                       <TableCell>
                         <Input
