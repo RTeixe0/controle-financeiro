@@ -111,9 +111,9 @@ export default function Page() {
             <div>
               <Label>Tipo</Label>
               <select
-                className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
+                className="mt-1 w-full rounded-md border bg-background px-3 py-2 text-sm dark:bg-background dark:text-foreground"
                 value={tipo}
-                onChange={(e) => setTipo(e.target.value as "receita" | "despesa")}
+                onChange={(e) => setTipo(e.target.value as 'receita' | 'despesa')}
               >
                 <option value="despesa">Despesa</option>
                 <option value="receita">Receita</option>
@@ -122,7 +122,7 @@ export default function Page() {
             <div>
               <Label>Categoria</Label>
               <select
-                className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
+                className="mt-1 w-full rounded-md border bg-background px-3 py-2 text-sm dark:bg-background dark:text-foreground"
                 value={categoriaId}
                 onChange={(e) => setCategoriaId(e.target.value)}
               >

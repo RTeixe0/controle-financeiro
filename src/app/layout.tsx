@@ -22,10 +22,12 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#000000" />
       </head>
-      <body className={`${inter.variable} antialiased`}>
+      <body
+        className={`${inter.variable} min-h-screen bg-background text-foreground antialiased transition-colors dark:bg-background dark:text-foreground`}
+      >
         <Navbar />
         <Sidebar />
-        <div className="pt-14 lg:ml-64">{children}</div>
+        <main className="container mx-auto pt-14 lg:ml-64">{children}</main>
       </body>
     </html>
   );

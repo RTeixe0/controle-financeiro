@@ -42,7 +42,7 @@ export function Sidebar() {
   const pathname = usePathname()
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r bg-background lg:block">
+    <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r bg-background transition-colors lg:block dark:bg-background dark:text-foreground">
       <SidebarLinks pathname={pathname} />
     </aside>
   )
