@@ -1,14 +1,10 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import Papa from 'papaparse'
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
@@ -18,7 +14,7 @@ import {
   TableBody,
   TableRow,
   TableHead,
-  TableCell,
+  TableCell
 } from '@/components/ui/table'
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
 
@@ -32,6 +28,7 @@ interface Row {
 }
 
 export default function Page() {
+  const router = useRouter()
   const [rows, setRows] = useState<Row[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -47,7 +44,7 @@ export default function Page() {
       tipo: (r.tipo || 'despesa') as 'receita' | 'despesa',
       categoria: r.categoria || '',
       descricao: r.descricao || '',
-      formaPagamento: r.formaPagamento || '',
+      formaPagamento: r.formaPagamento || ''
     }))
     setRows(data)
   }
@@ -60,7 +57,7 @@ export default function Page() {
   }
 
   function handleRowChange(index: number, field: keyof Row, value: string) {
-    setRows((prev) => {
+    setRows(prev => {
       const updated = [...prev]
       updated[index] = { ...updated[index], [field]: value } as Row
       return updated
@@ -77,7 +74,7 @@ export default function Page() {
           tipo: (t.tipo || 'despesa') as 'receita' | 'despesa',
           categoria: t.categoria || '',
           descricao: t.descricao || '',
-          formaPagamento: t.formaPagamento || '',
+          formaPagamento: t.formaPagamento || ''
         }))
         setRows(data)
         setShowJson(false)
@@ -106,9 +103,9 @@ export default function Page() {
     setError('')
     setResult(null)
     try {
-      const payload = rows.map((r) => ({
+      const payload = rows.map(r => ({
         ...r,
-        valor: Number(r.valor),
+        valor: Number(r.valor)
       }))
       const res = await axios.post('/api/import/csv', payload)
       setResult(res.data)
@@ -142,21 +139,25 @@ export default function Page() {
               <AlertTitle>Importação concluída</AlertTitle>
               <AlertDescription>
                 {`Foram importadas ${result.count} transações e criadas ${result.categoriesCreated} categorias.`}
-                <Button variant="link" className="ml-2 px-0" onClick={() => (window.location.href = '/transacoes')}>
+                <Button
+                  variant="link"
+                  className="ml-2 px-0"
+                  onClick={() => router.push('/transacoes')}
+                >
                   Ver transações
                 </Button>
               </AlertDescription>
             </Alert>
           )}
           <Input type="file" accept=".csv" onChange={handleFileChange} />
-          <Button variant="ghost" type="button" onClick={() => setShowJson((v) => !v)}>
+          <Button variant="ghost" type="button" onClick={() => setShowJson(v => !v)}>
             {showJson ? 'Fechar JSON' : 'Colar JSON'}
           </Button>
           {showJson && (
             <div className="space-y-2">
               <Textarea
                 value={jsonInput}
-                onChange={(e) => setJsonInput(e.target.value)}
+                onChange={e => setJsonInput(e.target.value)}
                 placeholder="Cole o JSON aqui"
               />
               <Button type="button" onClick={loadJson} size="sm">
@@ -184,21 +185,21 @@ export default function Page() {
                         <Input
                           type="date"
                           value={row.data}
-                          onChange={(e) => handleRowChange(i, 'data', e.target.value)}
+                          onChange={e => handleRowChange(i, 'data', e.target.value)}
                         />
                       </TableCell>
                       <TableCell>
                         <Input
                           type="number"
                           value={row.valor}
-                          onChange={(e) => handleRowChange(i, 'valor', e.target.value)}
+                          onChange={e => handleRowChange(i, 'valor', e.target.value)}
                         />
                       </TableCell>
                       <TableCell>
                         <select
                           className="h-9 w-full rounded-md border bg-background px-3 py-1 text-sm dark:bg-background dark:text-foreground"
                           value={row.tipo}
-                          onChange={(e) => handleRowChange(i, 'tipo', e.target.value)}
+                          onChange={e => handleRowChange(i, 'tipo', e.target.value)}
                         >
                           <option value="despesa">Despesa</option>
                           <option value="receita">Receita</option>
@@ -207,19 +208,19 @@ export default function Page() {
                       <TableCell>
                         <Input
                           value={row.categoria}
-                          onChange={(e) => handleRowChange(i, 'categoria', e.target.value)}
+                          onChange={e => handleRowChange(i, 'categoria', e.target.value)}
                         />
                       </TableCell>
                       <TableCell>
                         <Input
                           value={row.descricao || ''}
-                          onChange={(e) => handleRowChange(i, 'descricao', e.target.value)}
+                          onChange={e => handleRowChange(i, 'descricao', e.target.value)}
                         />
                       </TableCell>
                       <TableCell>
                         <Input
                           value={row.formaPagamento || ''}
-                          onChange={(e) => handleRowChange(i, 'formaPagamento', e.target.value)}
+                          onChange={e => handleRowChange(i, 'formaPagamento', e.target.value)}
                         />
                       </TableCell>
                     </TableRow>
