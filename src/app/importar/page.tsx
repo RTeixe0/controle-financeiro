@@ -90,12 +90,27 @@ export default function Page() {
     }
   }
 
+  function validate(): boolean {
+    for (const r of rows) {
+      if (!r.data || !r.valor || !r.tipo || !r.categoria) {
+        setError('Preencha data, valor, tipo e categoria de todas as linhas')
+        return false
+      }
+    }
+    return true
+  }
+
   async function handleImport() {
+    if (!validate()) return
     setLoading(true)
     setError('')
     setResult(null)
     try {
-      const res = await axios.post('/api/import/csv', rows)
+      const payload = rows.map((r) => ({
+        ...r,
+        valor: Number(r.valor),
+      }))
+      const res = await axios.post('/api/import/csv', payload)
       setResult(res.data)
       setRows([])
     } catch (err: any) {
