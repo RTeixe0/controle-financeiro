@@ -5,6 +5,7 @@ import './globals.css'
 import { Navbar } from '@/components/navigation/navbar'
 import { Sidebar } from '@/components/navigation/sidebar'
 import SwUpdate from '@/components/sw-update'
+import QuickActions from '@/components/quick-actions'
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -30,6 +31,7 @@ export default function RootLayout({
         <Sidebar />
         <SwUpdate />
         <main className="container mx-auto pt-14 lg:ml-64">{children}</main>
+        <QuickActions />
       </body>
     </html>
   );
