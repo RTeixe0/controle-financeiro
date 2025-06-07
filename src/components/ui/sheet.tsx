@@ -1,6 +1,8 @@
 'use client'
 
+import * as React from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { X } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
@@ -11,9 +13,18 @@ export const SheetClose = Dialog.Close
 
 interface SheetContentProps extends Dialog.DialogContentProps {
   side?: 'top' | 'bottom' | 'left' | 'right'
+  title: React.ReactNode
+  hideTitle?: boolean
 }
 
-export function SheetContent({ side = 'right', className, children, ...props }: SheetContentProps) {
+export function SheetContent({
+  side = 'right',
+  className,
+  children,
+  title,
+  hideTitle = false,
+  ...props
+}: SheetContentProps) {
   return (
     <Dialog.Portal>
       <Dialog.Overlay className="fixed inset-0 z-50 bg-black/50" />
@@ -28,6 +39,9 @@ export function SheetContent({ side = 'right', className, children, ...props }: 
           className,
         )}
       >
+        <Dialog.Title>
+          {hideTitle ? <VisuallyHidden>{title}</VisuallyHidden> : title}
+        </Dialog.Title>
         {children}
         <SheetClose asChild>
           <button className="absolute right-2 top-2 rounded-sm opacity-70 hover:opacity-100">
