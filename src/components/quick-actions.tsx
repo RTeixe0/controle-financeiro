@@ -14,6 +14,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import {
+  TooltipProvider,
   TooltipRoot,
   TooltipTrigger,
   TooltipContent,
@@ -63,38 +64,39 @@ export default function QuickActions() {
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-2">
-      <TooltipRoot>
-        <TooltipTrigger asChild>
-          <Button
-            size="icon"
-            className="rounded-full shadow-lg"
-            onClick={() => router.push('/transacoes/nova')}
-            aria-label="Nova transação"
-          >
-            <Plus className="size-5" />
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent side="left">+ Transação</TooltipContent>
-      </TooltipRoot>
-
-      <Dialog open={open} onOpenChange={setOpen}>
+    <TooltipProvider>
+      <div className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-2">
         <TooltipRoot>
           <TooltipTrigger asChild>
-            <DialogTrigger asChild>
-              <Button
-                size="icon"
-                variant="secondary"
-                className="rounded-full shadow-lg"
-                aria-label="Importar CSV"
-              >
-                <Upload className="size-5" />
-              </Button>
-            </DialogTrigger>
+            <Button
+              size="icon"
+              className="rounded-full shadow-lg"
+              onClick={() => router.push('/transacoes/nova')}
+              aria-label="Nova transação"
+            >
+              <Plus className="size-5" />
+            </Button>
           </TooltipTrigger>
-          <TooltipContent side="left">Importar CSV</TooltipContent>
+          <TooltipContent side="left">+ Transação</TooltipContent>
         </TooltipRoot>
-        <DialogContent className="space-y-4">
+
+        <Dialog open={open} onOpenChange={setOpen}>
+          <TooltipRoot>
+            <TooltipTrigger asChild>
+              <DialogTrigger asChild>
+                <Button
+                  size="icon"
+                  variant="secondary"
+                  className="rounded-full shadow-lg"
+                  aria-label="Importar CSV"
+                >
+                  <Upload className="size-5" />
+                </Button>
+              </DialogTrigger>
+            </TooltipTrigger>
+            <TooltipContent side="left">Importar CSV</TooltipContent>
+          </TooltipRoot>
+          <DialogContent className="space-y-4">
           <DialogHeader>
             <DialogTitle>Importar CSV</DialogTitle>
           </DialogHeader>
@@ -106,6 +108,7 @@ export default function QuickActions() {
           </Button>
         </DialogContent>
       </Dialog>
-    </div>
+      </div>
+    </TooltipProvider>
   )
 }
