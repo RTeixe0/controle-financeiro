@@ -6,6 +6,7 @@ import { Navbar } from '@/components/navigation/navbar'
 import { Sidebar } from '@/components/navigation/sidebar'
 import SwUpdate from '@/components/sw-update'
 import QuickActions from '@/components/quick-actions'
+import Providers from '@/components/providers'
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -27,11 +28,13 @@ export default function RootLayout({
       <body
         className={`${inter.variable} min-h-screen bg-background text-foreground antialiased transition-colors dark:bg-background dark:text-foreground`}
       >
-        <Navbar />
-        <Sidebar />
-        <SwUpdate />
-        <main className="container mx-auto pt-14 lg:ml-64">{children}</main>
-        <QuickActions />
+        <Providers>
+          <Navbar />
+          <Sidebar />
+          <SwUpdate />
+          <main className="container mx-auto pt-14 lg:ml-64">{children}</main>
+          <QuickActions />
+        </Providers>
       </body>
     </html>
   );

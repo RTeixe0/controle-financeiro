@@ -25,7 +25,7 @@ export function Navbar() {
     <header className="fixed inset-x-0 top-0 z-40 flex h-14 items-center border-b bg-background px-4 transition-colors lg:ml-64 dark:bg-background dark:text-foreground">
       <Sheet>
         <SheetTrigger asChild className="lg:hidden">
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" aria-label="Abrir menu">
             <Menu className="size-5" />
           </Button>
         </SheetTrigger>
