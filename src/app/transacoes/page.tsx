@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Select } from "@/components/ui/select"
 
 interface Categoria {
   _id: string
@@ -110,21 +111,21 @@ export default function Page() {
             </div>
             <div>
               <Label>Tipo</Label>
-              <select
-                className="mt-1 w-full rounded-md border bg-background px-3 py-2 text-sm dark:bg-background dark:text-foreground"
+              <Select
                 value={tipo}
                 onChange={(e) => setTipo(e.target.value as 'receita' | 'despesa')}
+                className="mt-1"
               >
                 <option value="despesa">Despesa</option>
                 <option value="receita">Receita</option>
-              </select>
+              </Select>
             </div>
             <div>
               <Label>Categoria</Label>
-              <select
-                className="mt-1 w-full rounded-md border bg-background px-3 py-2 text-sm dark:bg-background dark:text-foreground"
+              <Select
                 value={categoriaId}
                 onChange={(e) => setCategoriaId(e.target.value)}
+                className="mt-1"
               >
                 <option value="">Selecione...</option>
                 {categorias
@@ -134,7 +135,7 @@ export default function Page() {
                       {c.nome}
                     </option>
                   ))}
-              </select>
+              </Select>
             </div>
             <Input
               placeholder="Descrição"
