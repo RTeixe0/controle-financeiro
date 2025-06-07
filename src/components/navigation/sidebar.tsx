@@ -17,7 +17,8 @@ interface Props {
 }
 
 export function SidebarLinks({ pathname }: Props) {
-  const current = pathname || usePathname()
+  const routePathname = usePathname()
+  const current = pathname || routePathname
 
   return (
     <ul className="space-y-1 p-4">
