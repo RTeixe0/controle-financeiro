@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import axios from 'axios'
 import {
   Card,
@@ -88,7 +89,7 @@ export default function GamificacaoPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   {mission.icon && (
-                    <img src={mission.icon} alt="" className="size-5" />
+                    <Image src={mission.icon} alt={mission.nome} width={20} height={20} className="size-5" />
                   )}
                   {mission.nome}
                 </CardTitle>
@@ -129,7 +130,7 @@ export default function GamificacaoPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   {ach.icon && (
-                    <img src={ach.icon} alt="" className="size-5" />
+                    <Image src={ach.icon} alt={ach.nome} width={20} height={20} className="size-5" />
                   )}
                   {ach.nome}
                 </CardTitle>
