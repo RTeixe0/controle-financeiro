@@ -7,14 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --ext .ts,.tsx --fix",
-    "test": "jest --passWithNoTests"
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "testMatch": [
-      "**/__tests__/**/*.(test|spec).[jt]s?(x)"
-    ]
+    "test": "jest --passWithNoTests --config jest.config.js"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.14",
