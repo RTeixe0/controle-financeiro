@@ -23,7 +23,7 @@ import {
 } from '@/components/ui/dialog'
 import {
   TooltipProvider,
-  TooltipRoot,
+  Tooltip,
   TooltipTrigger,
   TooltipContent,
 } from '@/components/ui/tooltip'
@@ -107,17 +107,17 @@ export default function GamificacaoPage() {
                   )}
                 </div>
               </CardContent>
-              <CardFooter className="flex items-center justify-between">
-                <Badge variant="outline">Recompensa: {mission.recompensa}</Badge>
-                <TooltipProvider>
-                  <TooltipRoot>
-                    <TooltipTrigger asChild>
-                      <Info className="size-4 cursor-pointer" />
-                    </TooltipTrigger>
-                    <TooltipContent>{mission.progresso}% concluído</TooltipContent>
-                  </TooltipRoot>
-                </TooltipProvider>
-              </CardFooter>
+                <CardFooter className="flex items-center justify-between">
+                  <Badge variant="outline">Recompensa: {mission.recompensa}</Badge>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Info className="size-4 cursor-pointer" />
+                      </TooltipTrigger>
+                      <TooltipContent>{mission.progresso}% concluído</TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </CardFooter>
             </Card>
           ))}
         </div>

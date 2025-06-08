@@ -17,7 +17,7 @@ interface Props {
 }
 
 export function SidebarLinks({ pathname }: Props) {
-  const routePathname = usePathname()
+  const routePathname = usePathname() ?? ''
   const current = pathname || routePathname
 
   return (
@@ -40,7 +40,7 @@ export function SidebarLinks({ pathname }: Props) {
 }
 
 export function Sidebar() {
-  const pathname = usePathname()
+  const pathname = usePathname() ?? ''
 
   return (
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r bg-background transition-colors lg:block dark:bg-background dark:text-foreground">

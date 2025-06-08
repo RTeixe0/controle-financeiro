@@ -113,8 +113,7 @@ export default function Page() {
               <Label>Tipo</Label>
               <Select
                 value={tipo}
-                onChange={(e) => setTipo(e.target.value as 'receita' | 'despesa')}
-                className="mt-1"
+                onValueChange={(value) => setTipo(value as 'receita' | 'despesa')}
               >
                 <option value="despesa">Despesa</option>
                 <option value="receita">Receita</option>
@@ -124,8 +123,7 @@ export default function Page() {
               <Label>Categoria</Label>
               <Select
                 value={categoriaId}
-                onChange={(e) => setCategoriaId(e.target.value)}
-                className="mt-1"
+                onValueChange={setCategoriaId}
               >
                 <option value="">Selecione...</option>
                 {categorias

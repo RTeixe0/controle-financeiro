@@ -72,11 +72,10 @@ export default function NovoAtivoPage() {
               onChange={(e) => setNome(e.target.value)}
               className="sm:col-span-2"
             />
-            <Select
-              value={tipo}
-              onChange={(e) => setTipo(e.target.value)}
-              className="sm:col-span-1"
-            >
+              <Select
+                value={tipo}
+                onValueChange={setTipo}
+              >
               <option value="imóvel">Imóvel</option>
               <option value="veículo">Veículo</option>
               <option value="investimento">Investimento</option>

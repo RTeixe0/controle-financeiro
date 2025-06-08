@@ -13,12 +13,17 @@ import {
   DialogHeader,
   DialogTitle
 } from '@/components/ui/dialog'
-import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip'
+import {
+  TooltipProvider,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from '@/components/ui/tooltip'
 import { Input } from '@/components/ui/input'
 
 export default function QuickActions() {
   const router = useRouter()
-  const pathname = usePathname()
+  const pathname = usePathname() ?? ''
 
   const [open, setOpen] = useState(false)
   const [file, setFile] = useState<File | null>(null)
@@ -59,22 +64,21 @@ export default function QuickActions() {
   }
 
   return (
-    <TooltipProvider>
-      <div className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-2">
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              size="icon"
-              className="rounded-full shadow-lg"
-              onClick={() => router.push('/transacoes/nova')}
-              aria-label="Nova transação"
-            >
-              <Plus className="size-5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="left">+ Transação</TooltipContent>
-        </Tooltip>
-
+      <TooltipProvider>
+        <div className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-2">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon"
+                className="rounded-full shadow-lg"
+                onClick={() => router.push('/transacoes/nova')}
+                aria-label="Nova transação"
+              >
+                <Plus className="size-5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="left">+ Transação</TooltipContent>
+          </Tooltip>
         <Dialog open={open} onOpenChange={setOpen}>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -91,7 +95,6 @@ export default function QuickActions() {
             </TooltipTrigger>
             <TooltipContent side="left">Importar CSV</TooltipContent>
           </Tooltip>
-
           <DialogContent className="space-y-4">
             <DialogHeader>
               <DialogTitle>Importar CSV</DialogTitle>
