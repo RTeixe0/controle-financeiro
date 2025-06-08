@@ -80,9 +80,9 @@ export default function Page() {
               <Label>Tipo</Label>
               <Select
                 value={tipo}
-                onChange={(e) =>
+                onValueChange={(value) =>
                   setTipo(
-                    e.target.value as 'imóvel' | 'veículo' | 'investimento' | 'outro'
+                    value as 'imóvel' | 'veículo' | 'investimento' | 'outro'
                   )
                 }
                 className="mt-1"

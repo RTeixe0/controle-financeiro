@@ -197,11 +197,10 @@ export default function Page() {
                         />
                       </TableCell>
                       <TableCell>
-                      <Select
-                        value={row.tipo}
-                        onChange={e => handleRowChange(i, 'tipo', e.target.value)}
-                        className="h-9"
-                      >
+                        <Select
+                          value={row.tipo}
+                          onValueChange={(value) => handleRowChange(i, 'tipo', value)}
+                        >
                         <option value="despesa">Despesa</option>
                         <option value="receita">Receita</option>
                       </Select>

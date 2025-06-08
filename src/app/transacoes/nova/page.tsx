@@ -105,19 +105,17 @@ export default function NovaTransacaoPage() {
             />
             <Select
               value={tipo}
-              onChange={(e) => {
-                setTipo(e.target.value as 'receita' | 'despesa')
+              onValueChange={(value) => {
+                setTipo(value as 'receita' | 'despesa')
                 setCategoriaId('')
               }}
-              className="sm:col-span-1"
             >
               <option value="receita">Receita</option>
               <option value="despesa">Despesa</option>
             </Select>
             <Select
               value={categoriaId}
-              onChange={(e) => setCategoriaId(e.target.value)}
-              className="sm:col-span-1"
+              onValueChange={setCategoriaId}
             >
               <option value="">Categoria</option>
               {categorias
