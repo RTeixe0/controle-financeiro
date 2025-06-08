@@ -85,7 +85,7 @@ export default function Page() {
 
   return (
     <div className="p-4">
-      <Card className="mx-auto w-full max-w-md">
+      <Card className="mx-auto w-full max-w-md sm:max-w-lg">
         <CardHeader>
           <CardTitle>Lançar Transação</CardTitle>
         </CardHeader>

@@ -124,7 +124,7 @@ export default function Page() {
 
   return (
     <div className="p-4 space-y-4">
-      <Card className="mx-auto w-full max-w-3xl space-y-4">
+      <Card className="mx-auto w-full max-w-3xl sm:max-w-4xl space-y-4">
         <CardHeader>
           <CardTitle>Importar Transações</CardTitle>
         </CardHeader>

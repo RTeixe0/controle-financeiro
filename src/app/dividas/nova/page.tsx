@@ -66,7 +66,7 @@ export default function NovaDividaPage() {
 
   return (
     <div className="flex justify-center p-4">
-      <Card className="w-full max-w-lg space-y-4">
+      <Card className="w-full max-w-lg sm:max-w-xl md:max-w-2xl space-y-4">
         <CardHeader>
           <CardTitle>Registrar Dívida</CardTitle>
         </CardHeader>
