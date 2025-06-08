@@ -51,7 +51,7 @@ export default function LoginPage() {
 
   return (
     <main className="flex min-h-screen items-center justify-center p-4">
-      <Card className="w-full max-w-sm space-y-4">
+      <Card className="w-full max-w-sm sm:max-w-md space-y-4">
         <CardHeader>
           <CardTitle className="text-center">
             {isRegister ? 'Cadastrar' : 'Entrar'}

@@ -30,7 +30,7 @@ export default function Home() {
   const enableNotifications = useNotification()
   return (
     <main className="flex min-h-screen items-center justify-center p-4">
-      <Card className="w-full max-w-sm space-y-4 text-center">
+      <Card className="w-full max-w-sm sm:max-w-md space-y-4 text-center">
         <CardHeader>
           <CardTitle>Bem-vindo ao Controle Financeiro</CardTitle>
         </CardHeader>
