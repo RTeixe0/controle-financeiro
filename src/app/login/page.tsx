@@ -1,12 +1,40 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+
+function ThemeButton() {
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark')
+
+  useEffect(() => {
+    const stored = localStorage.getItem('theme') as 'light' | 'dark' | null
+    const initial = stored || 'dark'
+    setTheme(initial)
+    document.documentElement.classList.toggle('dark', initial === 'dark')
+  }, [])
+
+  function toggle() {
+    const next = theme === 'dark' ? 'light' : 'dark'
+    setTheme(next)
+    localStorage.setItem('theme', next)
+    document.documentElement.classList.toggle('dark', next === 'dark')
+  }
+
+  return (
+    <button
+      onClick={toggle}
+      aria-label="Alternar tema"
+      className="rounded-md p-2 text-xl transition-colors hover:bg-accent/50"
+    >
+      🌗
+    </button>
+  )
+}
 
 export default function LoginPage() {
   const router = useRouter()
@@ -50,8 +78,11 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-4">
-      <Card className="w-full max-w-sm sm:max-w-md space-y-4">
+    <main className="relative flex min-h-dvh items-center justify-center bg-background p-4">
+      <div className="fixed right-4 top-4">
+        <ThemeButton />
+      </div>
+      <Card className="w-full max-w-sm sm:max-w-md space-y-4 shadow-lg">
         <CardHeader>
           <CardTitle className="text-center">
             {isRegister ? 'Cadastrar' : 'Entrar'}
