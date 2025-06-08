@@ -11,14 +11,9 @@ import {
   DialogTrigger,
   DialogContent,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from '@/components/ui/dialog'
-import {
-  TooltipProvider,
-  TooltipRoot,
-  TooltipTrigger,
-  TooltipContent,
-} from '@/components/ui/tooltip'
+import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip'
 import { Input } from '@/components/ui/input'
 
 export default function QuickActions() {
@@ -32,7 +27,7 @@ export default function QuickActions() {
   const [message, setMessage] = useState('')
 
   const hiddenRoutes = ['/login', '/']
-  if (hiddenRoutes.includes(pathname)) return null
+  if (!pathname || hiddenRoutes.includes(pathname)) return null
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0] || null
@@ -48,7 +43,7 @@ export default function QuickActions() {
       const formData = new FormData()
       formData.append('file', file)
       const res = await axios.post('/api/import/csv', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: { 'Content-Type': 'multipart/form-data' }
       })
       setMessage(res.data?.message || 'Importação concluída')
       setFile(null)
@@ -66,7 +61,7 @@ export default function QuickActions() {
   return (
     <TooltipProvider>
       <div className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-2">
-        <TooltipRoot>
+        <Tooltip>
           <TooltipTrigger asChild>
             <Button
               size="icon"
@@ -78,10 +73,10 @@ export default function QuickActions() {
             </Button>
           </TooltipTrigger>
           <TooltipContent side="left">+ Transação</TooltipContent>
-        </TooltipRoot>
+        </Tooltip>
 
         <Dialog open={open} onOpenChange={setOpen}>
-          <TooltipRoot>
+          <Tooltip>
             <TooltipTrigger asChild>
               <DialogTrigger asChild>
                 <Button
@@ -95,19 +90,20 @@ export default function QuickActions() {
               </DialogTrigger>
             </TooltipTrigger>
             <TooltipContent side="left">Importar CSV</TooltipContent>
-          </TooltipRoot>
+          </Tooltip>
+
           <DialogContent className="space-y-4">
-          <DialogHeader>
-            <DialogTitle>Importar CSV</DialogTitle>
-          </DialogHeader>
-          {error && <p className="text-sm text-destructive">{error}</p>}
-          {message && <p className="text-sm text-green-600">{message}</p>}
-          <Input type="file" accept=".csv" onChange={handleFileChange} />
-          <Button onClick={handleUpload} disabled={!file || loading} className="w-full">
-            {loading ? 'Importando...' : 'Enviar'}
-          </Button>
-        </DialogContent>
-      </Dialog>
+            <DialogHeader>
+              <DialogTitle>Importar CSV</DialogTitle>
+            </DialogHeader>
+            {error && <p className="text-sm text-destructive">{error}</p>}
+            {message && <p className="text-sm text-green-600">{message}</p>}
+            <Input type="file" accept=".csv" onChange={handleFileChange} />
+            <Button onClick={handleUpload} disabled={!file || loading} className="w-full">
+              {loading ? 'Importando...' : 'Enviar'}
+            </Button>
+          </DialogContent>
+        </Dialog>
       </div>
     </TooltipProvider>
   )
